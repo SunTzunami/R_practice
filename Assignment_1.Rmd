@@ -95,14 +95,12 @@ d.
 variables <- ncol(df)
 ```
 
-
 e.
 ```{r}
 names(df)
 ggpairs(df, c("Age", "BMI", "Gender", "TLAC_1", "MVPA"), 
         diag = list(continuous ="barDiag", discrete = "barDiag", na = "naDiag") )
 ```
-
 
 f.
 ```{r}
@@ -131,12 +129,24 @@ plot(p2)
 h.
 Males seem to have more MVPA than females (distribution is more skewed towards the right).
 
-
 i.
 ```{r}
-p3 <- ggplot(df, aes(x=Age, y=MVPA)) + geom_point()
+p3 <- ggplot(df, aes(x=Age, y=MVPA)) + geom_point(color ='blue', alpha=0.5) + theme_dark()
 plot(p3)
 ```
+
+j.
+```{r}
+lm.fit <- lm(df$MVPA ~ df$Age)
+p3 <- p3+  geom_abline(intercept = coefficients(lm.fit)[1], slope = coefficients(lm.fit)[2],
+              colour = "red", size = 0.4, linetype = "solid") + theme(axis.title.x = element_text(size = 16), axis.title.y = element_text(size = 16))
+plot(p3)
+print(summary(lm.fit)$r.squared)
+print(cor(df$MVPA, df$Age))
+```
+
+l.
+Homoscedasticity is not present 
 
 
 
