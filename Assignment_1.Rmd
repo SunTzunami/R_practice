@@ -16,6 +16,7 @@ knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning= FALSE, size = 'tiny')
 ### Importing necessary libraries
 ```{r}
 library(ggplot2)
+library(GGally)
 ```
 
 
@@ -72,9 +73,72 @@ ggplot(data = df, aes(x=x_vals, y=y_vals), xlab="x", ylab="f(x)") + geom_point()
 Done on paper
 
 ## 4
+
+a. Done
+
+b.
 ```{r}
-data_analysis  <- readRDS(file.path(getwd(), "data_analysis.rds"))
+data_analysis  <- readRDS(file.path(getwd(), "Data", "data_analysis.rds"))
 ```
+
+```{r}
+df <- as.data.frame(data_analysis)
+```
+
+c.
+```{r}
+participants <- nrow(df)
+```
+
+d.
+```{r}
+variables <- ncol(df)
+```
+
+
+e.
+```{r}
+names(df)
+ggpairs(df, c("Age", "BMI", "Gender", "TLAC_1", "MVPA"), 
+        diag = list(continuous ="barDiag", discrete = "barDiag", na = "naDiag") )
+```
+
+
+f.
+```{r}
+p1 <- ggplot(df, aes(x=MVPA, group=Gender, fill = Gender)) + 
+  geom_histogram(aes(y=..density..), 
+                 position="identity", bins = 20, alpha = 0.6) +
+  theme_bw()+
+  scale_fill_manual(values=c("black", "gray"), 
+                       name="")+
+  labs(x='MVPA', y='Proportion') 
+plot(p1)
+```
+
+g.
+```{r}
+p2 <- ggplot(df, aes(x=MVPA, group=BMI_cat, fill = BMI_cat)) + 
+  geom_histogram(aes(y=..density..), 
+                 position="identity", bins = 20, alpha = 0.3) +
+  theme_bw()+
+  scale_fill_manual(values=c("green", "pink", "blue", "red"), 
+                       name="")+
+  labs(x='MVPA', y='Proportion')
+plot(p2)
+```
+
+h.
+Males seem to have more MVPA than females (distribution is more skewed towards the right).
+
+
+i.
+```{r}
+p3 <- ggplot(df, aes(x=Age, y=MVPA)) + geom_point()
+plot(p3)
+```
+
+
 
 
 
